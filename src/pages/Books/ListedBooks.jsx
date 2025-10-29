@@ -1,5 +1,6 @@
 import { ArrowDown, ArrowUp } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet';
 import { Link } from 'react-router';
 
 export const ListedBooks = () => {
@@ -49,6 +50,12 @@ export const ListedBooks = () => {
 
   return (
     <>
+      {' '}
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>Book Shelf | Book List</title>
+        {/* <link rel="canonical" href="http://mysite.com/example" /> */}
+      </Helmet>
       <p className="text-center text-7xl font-bold mt-2 bg-gray-200 py-3">Books</p>
       <div className="flex justify-center items-center my-11  w-[8vw] mx-auto relative ">
         {/* sorting */}
@@ -65,7 +72,7 @@ export const ListedBooks = () => {
             Rating
           </option>
           <option value="pages">Number of pages</option>
-          </select>
+        </select>
         <div className="absolute  right-0 top-1/2 transform -translate-y-1/2 pointer-events-none">
           {open ? (
             <ArrowUp className="w-5 h-5 text-[#016B61]" />
@@ -74,7 +81,6 @@ export const ListedBooks = () => {
           )}
         </div>
       </div>
-
       {/* books listed */}
       <div className=" md:w-[60vw] px-2 md:px-0 mx-auto ">
         {/* Books Tab */}
@@ -101,108 +107,118 @@ export const ListedBooks = () => {
         </div>
         {/* Books */}
         {/* read books */}
-        <div>
-          {(readBooks > 0 || activeButton === 'read') && (
-            <div className='overflow-auto'>
-              {readBooks?.map(w => (
+        {activeButton === 'read' && (
+          <div className="overflow-auto">
+            {readBooks?.length > 0 ? (
+              readBooks.map(w => (
                 <div
                   key={w.bookId}
-                  className="card md:card-side  p-3 mb-3 border w-100 md:w-full md:mx-0 mx-auto  md:h-[30vh] border-gray-200 overflow-auto">
-                  <figure className="bg-gray-100 rounded-2xl ">
-                    <img className="p-6 h-[25vh] " src={w.image} alt="Books" />
+                  className="card md:card-side p-3 mb-3 border w-100 md:w-full md:mx-0 mx-auto md:h-[30vh] border-gray-200 overflow-auto">
+                  <figure className="bg-gray-100 rounded-2xl">
+                    <img className="p-6 h-[25vh]" src={w.image} alt="Books" />
                   </figure>
-                  <div className="card-body  md:space-y-1">
-                    <h2 className="card-title ">{w.bookName}</h2>
+                  <div className="card-body md:space-y-1">
+                    <h2 className="card-title">{w.bookName}</h2>
 
-                    <div className="">
-                      <p className="mb-3 ">By : {w.publisher}</p>
-                      <p>
-                        Tags{' '}
-                        {w.tags.map((t, index) => (
-                          <span key={index}>{t}</span>
+                    <div>
+                      <p className="mb-3">By: {w.author || w.publisher}</p>
+                      <div className="flex gap-2 flex-wrap">
+                        <span className="text-sm">Tags:</span>
+                        {w.tags?.map((t, index) => (
+                          <span
+                            key={index}
+                            className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">
+                            {t}
+                          </span>
                         ))}
-                      </p>
+                      </div>
                     </div>
-                    <div className="flex justify-start items-start w-1/3 ">
+
+                    <div className="flex gap-4 text-sm">
                       <p>Publisher: {w.publisher}</p>
-                      <p>Pages {w.totalPages}</p>
+                      <p>Pages: {w.totalPages}</p>
                     </div>
-                    <div className="border-b  border-gray-200 py-4"></div>
-                    <div className="card-actions justify-start w-2/3">
-                      <p className="primary-bg px-4 cursor-pointer py-2 rounded-md">
+
+                    <div className="border-b border-gray-200 py-4"></div>
+
+                    <div className="card-actions justify-start gap-3">
+                      <span className="primary-bg px-4 cursor-pointer py-2 rounded-md text-sm">
                         Category: {w.category}
-                      </p>
-                      <p className="secondary-bg px-4 cursor-pointer py-2 rounded-md">
-                        Rating:{w.rating}
-                      </p>
+                      </span>
+                      <span className="secondary-bg px-4 cursor-pointer py-2 rounded-md text-sm">
+                        Rating: {w.rating}
+                      </span>
                       <Link to={`/BookDetails/${w.bookId}`} className="secondary-btn">
                         View Details
                       </Link>
                     </div>
                   </div>
                 </div>
-              ))}
-            </div>
-          )}
-        </div>
-
+              ))
+            ) : (
+              <div className="text-center py-12 text-gray-500">
+                <p className="text-xl">No read books yet!</p>
+              </div>
+            )}
+          </div>
+        )}
         {/* wishlist */}
-        {wishlist > 0 ||
-          (activeButton === 'wishlist' && (
-            <div className='overflow-auto'>
-              {wishlist?.map(w => (
+        {activeButton === 'wishlist' && (
+          <div className="overflow-auto">
+            {wishlist?.length > 0 ? (
+              wishlist.map(w => (
                 <div
                   key={w.bookId}
-                  className="card md:card-side p-3 mb-3 border  md:h-[30vh] border-gray-200 overflow-auto">
-                  <figure className="bg-gray-100 rounded-2xl ">
-                    <img className="p-6 h-[25vh] " src={w.image} alt="Books" />
+                  className="card md:card-side p-3 mb-3 border w-100 md:w-full md:mx-0 mx-auto md:h-[30vh] border-gray-200 overflow-auto">
+                  <figure className="bg-gray-100 rounded-2xl">
+                    <img className="p-6 h-[25vh]" src={w.image} alt="Books" />
                   </figure>
-                  <div className="card-body  md:space-y-1">
-                    <h2 className="card-title ">{w.bookName}</h2>
+                  <div className="card-body md:space-y-1">
+                    <h2 className="card-title">{w.bookName}</h2>
 
-                    <div className="">
-                      <p className="mb-3 ">By : {w.publisher}</p>
-                      <p>
-                        Tags{' '}
-                        {w.tags.map((t, index) => (
-                          <span key={index}>{t}</span>
+                    <div>
+                      <p className="mb-3">By: {w.author || w.publisher}</p>
+                      <div className="flex gap-2 flex-wrap">
+                        <span className="text-sm">Tags:</span>
+                        {w.tags?.map((t, index) => (
+                          <span
+                            key={index}
+                            className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">
+                            {t}
+                          </span>
                         ))}
-                      </p>
+                      </div>
                     </div>
-                    <div className="flex justify-start items-start w-1/3 ">
+
+                    <div className="flex gap-4 text-sm">
                       <p>Publisher: {w.publisher}</p>
-                      <p>Pages {w.totalPages}</p>
+                      <p>Pages: {w.totalPages}</p>
                     </div>
-                    <div className="border-b  border-gray-200 py-4"></div>
-                    <div className="card-actions justify-start w-2/3">
-                      <p className="primary-bg px-4 cursor-pointer py-2 rounded-md">
+
+                    <div className="border-b border-gray-200 py-4"></div>
+
+                    <div className="card-actions justify-start gap-3">
+                      <span className="primary-bg px-4 cursor-pointer py-2 rounded-md text-sm">
                         Category: {w.category}
-                      </p>
-                      <p className="secondary-bg px-4 cursor-pointer py-2 rounded-md">
-                        Rating:{w.rating}
-                      </p>
+                      </span>
+                      <span className="secondary-bg px-4 cursor-pointer py-2 rounded-md text-sm">
+                        Rating: {w.rating}
+                      </span>
                       <Link to={`/BookDetails/${w.bookId}`} className="secondary-btn">
                         View Details
                       </Link>
                     </div>
                   </div>
                 </div>
-              ))}
-            </div>
-          ))}
-
-        {/* Empty State */}
-        {activeButton === 'read' && readBooks.length === 0 && (
-          <div className="text-center py-12 text-gray-500">
-            <p className="text-xl">No read books yet!</p>
+              ))
+            ) : (
+              <div className="text-center py-12 text-gray-500">
+                <p className="text-xl">Your wishlist is empty!</p>
+              </div>
+            )}
           </div>
         )}
-
-        {activeButton === 'wishlist' && wishlist.length === 0 && (
-          <div className="text-center py-12 text-gray-500">
-            <p className="text-xl">Your wishlist is empty!</p>
-          </div>
-        )}
+  
       </div>
     </>
   );

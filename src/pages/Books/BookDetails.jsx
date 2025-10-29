@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Helmet } from 'react-helmet';
 import { useLoaderData } from 'react-router';
 
 export const BookDetails = () => {
@@ -54,53 +55,62 @@ export const BookDetails = () => {
     }
   };
   return (
-    <div className="hero bg-base-50 min-h-screen">
-      <div className="hero-content flex-col lg:flex-row">
-        <div className="bg-gray-200 rounded-2xl relative">
-          <img src={image} className="max-w-sm p-9   skew-x-3 relative z-10" />
-          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[90%] h-4 bg-black/20 blur-md -z-10"></div>
-        </div>
-        <div>
-          <h1 className="text-5xl font-bold">{bookName}</h1>
-          <h1 className="text-gray-600 mt-3">By : {publisher}</h1>
-          <h1 className="text-gray-600 font-bold">{category}</h1>
-          <p className="py-6">{review}</p>
-          <small className="font-semibold ">
-            Tag {tags[0]} {tags[1]}
-          </small>
-          <br />
-          <ul className="mt-3 [&>li]:text-gray-500 [&>li>span]:font-semibold [&>li>span]:ml-[100] [&>li]:flex [&>li]:justify-between [&>li]:items-center space-y-2 [&>li>span]:text-left w-[20vw]">
-            <li>
-              Number of Pages <span>{totalPages}</span>
-            </li>
-            <li>
-              Publisher <span>{publisher}</span>
-            </li>
-            <li>
-              Year of Publishing <span>{yearOfPublishing}</span>
-            </li>
-            <li>
-              Rating <span>{rating}</span>
-            </li>
-          </ul>
-          <div className=" text-black  space-x-6 mt-3">
-            <button
-              onClick={() => AddToReadBooks(data)}
-              disabled={readBlock}
-              className={`primary-btn ${
-                readBlock ? 'bg-gray-400 cursor-not-allowed' : ''
-              }`}>
-              Read{' '}
-            </button>
-            <button
-              disabled={isWishlist}
-              onClick={() => addWishlist(data)}
-              className={`secondary-btn ${isWishlist ? "bg-gray-400 cursor-not-allowed" : ""}`}>
-              Wishlist
-            </button>
+    <>
+      <Helmet>
+        <meta charSet="utf-8" />
+              <title>Book Shelf | { bookName}</title>
+        <link rel="canonical" href="http://mysite.com/example" />
+      </Helmet>
+      <div className="hero bg-base-50 min-h-screen">
+        <div className="hero-content flex-col lg:flex-row">
+          <div className="bg-gray-200 rounded-2xl relative">
+            <img src={image} className="max-w-sm p-9   skew-x-3 relative z-10" />
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[90%] h-4 bg-black/20 blur-md -z-10"></div>
+          </div>
+          <div>
+            <h1 className="text-5xl font-bold">{bookName}</h1>
+            <h1 className="text-gray-600 mt-3">By : {publisher}</h1>
+            <h1 className="text-gray-600 font-bold">{category}</h1>
+            <p className="py-6">{review}</p>
+            <small className="font-semibold ">
+              Tag {tags[0]} {tags[1]}
+            </small>
+            <br />
+            <ul className="mt-3 [&>li]:text-gray-500 [&>li>span]:font-semibold [&>li>span]:ml-[100] [&>li]:flex [&>li]:justify-between [&>li]:items-center space-y-2 [&>li>span]:text-left w-[20vw]">
+              <li>
+                Number of Pages <span>{totalPages}</span>
+              </li>
+              <li>
+                Publisher <span>{publisher}</span>
+              </li>
+              <li>
+                Year of Publishing <span>{yearOfPublishing}</span>
+              </li>
+              <li>
+                Rating <span>{rating}</span>
+              </li>
+            </ul>
+            <div className=" text-black  space-x-6 mt-3">
+              <button
+                onClick={() => AddToReadBooks(data)}
+                disabled={readBlock}
+                className={`primary-btn ${
+                  readBlock ? 'bg-gray-400 cursor-not-allowed' : ''
+                }`}>
+                Read{' '}
+              </button>
+              <button
+                disabled={isWishlist}
+                onClick={() => addWishlist(data)}
+                className={`secondary-btn ${
+                  isWishlist ? 'bg-gray-400 cursor-not-allowed' : ''
+                }`}>
+                Wishlist
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet';
 import {
   BarChart,
   Bar,
@@ -39,34 +40,41 @@ export const PageToReads = () => {
     setReadBooks(getBooks);
   }, []);
   return (
-    <div className="w-2/3 mx-auto my-11">
-      <div style={{ width: '100%', height: '500px' }}>
-        <ResponsiveContainer width="100%" height="100%">
-          <BarChart
-            data={readBooks}
-            margin={{
-              top: 20,
-              right: 30,
-              left: 20,
-              bottom: 5,
-            }}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="bookName" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Bar
-              dataKey="totalPages"
-              fill="#8884d8"
-              shape={<TriangleBar />}
-              label={{ position: 'top' }}>
-              {readBooks.map((_entry, index) => (
-                <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
-              ))}
-            </Bar>
-          </BarChart>
-        </ResponsiveContainer>
+    <>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>Book Shelf | Chart</title>
+        {/* <link rel="canonical" href="http://mysite.com/example" /> */}
+      </Helmet>
+      <div className="w-2/3 mx-auto my-11">
+        <div style={{ width: '100%', height: '500px' }}>
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart
+              data={readBooks}
+              margin={{
+                top: 20,
+                right: 30,
+                left: 20,
+                bottom: 5,
+              }}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="bookName" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              <Bar
+                dataKey="totalPages"
+                fill="#8884d8"
+                shape={<TriangleBar />}
+                label={{ position: 'top' }}>
+                {readBooks.map((_entry, index) => (
+                  <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
+                ))}
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
