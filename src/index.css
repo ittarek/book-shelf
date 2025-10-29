@@ -1,0 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+@plugin "daisyui";
+
+/* primary-bg:016B61;
+secondary-bg:70B2B2 */
+
+
+body,
+html {
+    background-color: white;
+    color: black;
+
+}
+
+@layer components {
+    .primary-bg {
+        @apply bg-[#016B61] text-white
+    }
+
+    .secondary-bg {
+        @apply bg-[#70B2B2] text-white
+    }
+
+    .primary-text {
+        @apply text-black font-bold
+    }
+
+    .secondary-text {
+        @apply text-gray-400 font-semibold
+    }
+
+    .primary-btn {
+        @apply bg-[#016B61] text-white px-4 py-2 rounded-md hover:bg-blue-700 cursor-pointer transition;
+    }
+
+    .secondary-btn {
+        @apply bg-[#70B2B2] text-gray-800 px-4 cursor-pointer py-2 rounded-md hover:bg-blue-700 transition;
+    }
+
+}
+
+.menu .active {
+    color: green
+}
