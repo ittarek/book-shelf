@@ -9,14 +9,23 @@ export const ListedBooks = () => {
   const [readTab, setReadTab] = useState(false);
   const [wishlist, setWishlist] = useState([]);
   const [readBooks, setReadBooks] = useState([]);
-    const [activeButton, setActiveButton] = useState('read');
-    const [sortList, setShortList] = useState([]);
+  const [activeButton, setActiveButton] = useState('read');
+  // sorting
   const handleSortChange = e => {
-      const value = e.target.value;
-      setShortList(value)
-      console.log(sortList);
-      
+    const value = e.target.value;
     setSortBy(value);
+    const type = e.target.value;
+    const bookSort = activeButton === 'read' ? [...readBooks] : [...wishlist];
+    if (type === 'rating') {
+      const sortedReadList = bookSort.sort((a, b) => a.rating - b.rating);
+      setReadBooks(sortedReadList);
+      setWishlist(sortedReadList);
+    }
+    if (type === 'pages') {
+      const sorted = bookSort.sort((a, b) => a.totalPages - b.totalPages);
+      setReadBooks(sorted);
+      setWishlist(sorted);
+    }
   };
   // Component load হলে default read books load করবে
   useEffect(() => {
@@ -41,8 +50,8 @@ export const ListedBooks = () => {
   return (
     <>
       <p className="text-center text-7xl font-bold mt-2 bg-gray-200 py-3">Books</p>
-          <div className="flex justify-center items-center my-11  w-[8vw] mx-auto relative ">
-              {/* sorting */}
+      <div className="flex justify-center items-center my-11  w-[8vw] mx-auto relative ">
+        {/* sorting */}
         <select
           onFocus={() => setOpen(true)}
           onBlur={() => setOpen(false)}
@@ -52,7 +61,9 @@ export const ListedBooks = () => {
           <option value="" disabled>
             Sort by
           </option>
-          <option value="rating">Rating</option>
+          <option onClick={() => handleSortChange('rating')} value="rating">
+            Rating
+          </option>
           <option value="pages">Number of pages</option>
           <option value="year">Publisher year</option>
         </select>
@@ -93,11 +104,11 @@ export const ListedBooks = () => {
         {/* read books */}
         <div>
           {(readBooks > 0 || activeButton === 'read') && (
-            <div>
+            <div className='overflow-auto'>
               {readBooks?.map(w => (
                 <div
                   key={w.bookId}
-                  className="card md:card-side  p-3 mb-3 border w-100 md:w-full md:mx-0 mx-auto  md:h-[30vh] border-gray-200">
+                  className="card md:card-side  p-3 mb-3 border w-100 md:w-full md:mx-0 mx-auto  md:h-[30vh] border-gray-200 overflow-auto">
                   <figure className="bg-gray-100 rounded-2xl ">
                     <img className="p-6 h-[25vh] " src={w.image} alt="Books" />
                   </figure>
@@ -139,11 +150,11 @@ export const ListedBooks = () => {
         {/* wishlist */}
         {wishlist > 0 ||
           (activeButton === 'wishlist' && (
-            <div>
+            <div className='overflow-auto'>
               {wishlist?.map(w => (
                 <div
                   key={w.bookId}
-                  className="card md:card-side p-3 mb-3 border  md:h-[30vh] border-gray-200">
+                  className="card md:card-side p-3 mb-3 border  md:h-[30vh] border-gray-200 overflow-auto">
                   <figure className="bg-gray-100 rounded-2xl ">
                     <img className="p-6 h-[25vh] " src={w.image} alt="Books" />
                   </figure>
