@@ -65,8 +65,7 @@ export const ListedBooks = () => {
             Rating
           </option>
           <option value="pages">Number of pages</option>
-          <option value="year">Publisher year</option>
-        </select>
+          </select>
         <div className="absolute  right-0 top-1/2 transform -translate-y-1/2 pointer-events-none">
           {open ? (
             <ArrowUp className="w-5 h-5 text-[#016B61]" />
